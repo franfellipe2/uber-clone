@@ -1,6 +1,12 @@
-+ Iniciar Projeto
-+ Conectar Ao Firebase
-+- View
+# configuraçõe
+    + Iniciar Projeto
+    + Conectar Ao Firebase
+# Autenticação
+    + Cadastrar login
+    - Logar
+# Model
+    - Cadastrar Usuario
+# view
     + Tela Inicial
     + tela login
     + tela cadastro

@@ -7,6 +7,7 @@
     tools:context=".activity.CreateLoginActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -15,6 +16,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="Digite um de usuário..."
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editEmail"
@@ -55,14 +67,17 @@
             android:layout_height="match_parent">
 
             <RadioButton
+                android:id="@+id/radioPassageiro"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="top|left"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
+                android:checked="false"
                 android:text="Passageiro" />
 
             <RadioButton
+                android:id="@+id/radioMotorista"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="right"
@@ -81,15 +96,26 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/colorAccent"
+                android:background="@color/colorSecondary"
+                android:onClick="createLogin"
                 android:text="CADASTRAR"
-                android:textColor="@android:color/white" />
+                android:textColor="?attr/colorPrimaryDark" />
         </LinearLayout>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
