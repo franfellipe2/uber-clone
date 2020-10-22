@@ -37,6 +37,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@color/colorAccent"
+            android:onClick="openViewLogin"
             android:text="Entrar"
             android:textColor="@android:color/white" />
 
