@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  openViewCreateLogin(View view){
-
+        Intent i = new Intent(getApplicationContext(), CreateLoginActivity.class);
+        startActivity(i);
     }
 
 }
