@@ -18,18 +18,19 @@ import com.franciscociecursoandroid.uberclone.R;
 import com.franciscociecursoandroid.uberclone.model.User;
 import com.franciscociecursoandroid.uberclone.model.UserType;
 import com.franciscociecursoandroid.uberclone.model.dao.MyFirebase;
+import com.franciscociecursoandroid.uberclone.model.dao.UserDao;
 import com.franciscociecursoandroid.uberclone.utils.Check;
 import com.franciscociecursoandroid.uberclone.widgets.Alerts;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class CreateLoginActivity extends AppCompatActivity {
 
     Activity activity;
     ProgressBar progressBar;
     EditText name, email, password, confirmPassword;
-    RadioButton passageiro, motorista;
     RadioGroup typeUser;
     Button btnCreate;
 
@@ -52,31 +53,32 @@ public class CreateLoginActivity extends AppCompatActivity {
 
     }
 
-    public void onLoginCreated() {
-        createUser();
+    public void onLoginCreated(Task<AuthResult> task) {
+        createUser(task);
+        updateLoginName(name.getText().toString());
     }
 
     public void onUserCreated() {
         progressBar.setVisibility(View.INVISIBLE);
         Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void createLogin(View view) {
+
         if (!formValidate()) return;
         progressBar.setVisibility(View.VISIBLE);
-        createLogin();
-    }
 
-    public void createLogin() {
         MyFirebase.getAuth()
                 .createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            onLoginCreated();
+                            onLoginCreated(task);
                         } else {
+                            progressBar.setVisibility(View.INVISIBLE);
                             Alerts.dialogError(activity, task.getException().getMessage());
                             task.getException().printStackTrace();
                         }
@@ -84,20 +86,29 @@ public class CreateLoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void createUser() {
+    public void createUser(Task<AuthResult> task) {
         User user = new User();
         user.setName(name.getText().toString());
         user.setEmail(email.getText().toString());
         user.setPassword(password.getText().toString());
-        switch (typeUser.getId()) {
+        switch (typeUser.getCheckedRadioButtonId()) {
             case R.id.radioPassageiro:
-                user.setType(UserType.PASSAGEIRO);
+                user.setType(UserType.PASSAGEIRO.toString());
                 break;
             case R.id.radioMotorista:
-                user.setType(UserType.MOTORISTA);
+                user.setType(UserType.MOTORISTA.toString());
                 break;
         }
-        onUserCreated();
+        user.setId(task.getResult().getUser().getUid());
+        UserDao.create(user, taskDao -> {
+            if (!taskDao.isSuccessful()) {
+                Alerts.dialogError(activity, taskDao.getException().getMessage());
+                progressBar.setVisibility(View.INVISIBLE);
+            } else {
+                onUserCreated();
+            }
+        });
+
     }
 
     public boolean formValidate() {
@@ -129,6 +140,16 @@ public class CreateLoginActivity extends AppCompatActivity {
             Alerts.dialogError(this, error);
             return false;
         }
+
+    }
+
+    public void updateLoginName(String name) {
+
+        UserProfileChangeRequest.Builder builderUser = new UserProfileChangeRequest.Builder();
+        builderUser.setDisplayName(name);
+        UserProfileChangeRequest newData = builderUser.build();
+
+        MyFirebase.getAuth().getCurrentUser().updateProfile(newData);
 
     }
 

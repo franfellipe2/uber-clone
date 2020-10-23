@@ -1,13 +1,17 @@
 package com.franciscociecursoandroid.uberclone.model;
 
+import com.google.firebase.database.Exclude;
+
 public class User {
 
+    @Exclude
+    public static String TABLENAME = "users";
     String id, name, email, password, type;
 
     public User() {
     }
 
-    public User(String id, String name, String email, String password, UserType type) {
+    public User(String id, String name, String email, String password, String type) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -15,12 +19,14 @@ public class User {
         this.setType(type);
     }
 
-    public void setType(UserType type){
-        this.type = type.toString();
+    public void setType(String type) {
+        this.type = UserType.valueOf(type).toString();
     }
-    public String getType(){
-        return type;
+
+    public String getType() {
+        return type != null ? type.toString() : null;
     }
+
     public String getId() {
         return id;
     }
@@ -45,6 +51,7 @@ public class User {
         this.email = email;
     }
 
+    @Exclude
     public String getPassword() {
         return password;
     }
@@ -52,4 +59,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

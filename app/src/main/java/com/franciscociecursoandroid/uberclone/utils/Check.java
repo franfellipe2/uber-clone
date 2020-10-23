@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Check {
 
     public static boolean isEmpty(EditText text){
-        return text.getText().toString().isEmpty();
+        return text.getText() == null || text.getText().toString().isEmpty();
     }
 
     public static boolean isEmailValid(String email){

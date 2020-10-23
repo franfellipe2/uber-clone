@@ -5,7 +5,7 @@
     + Cadastrar login
     - Logar
 # Model
-    - Cadastrar Usuario
+    + Cadastrar Usuario
 # view
     + Tela Inicial
     + tela login
