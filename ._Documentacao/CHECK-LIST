@@ -3,7 +3,8 @@
     + Conectar Ao Firebase
 # Autenticação
     + Cadastrar login
-    - Logar
+    + Logar usuario
+    - Direcionar usuario logado para a tela motorista/passageiro
 # Model
     + Cadastrar Usuario
 # view

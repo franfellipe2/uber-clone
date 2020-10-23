@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.franciscociecursoandroid.uberclone.R;
@@ -45,7 +44,7 @@ public class CreateLoginActivity extends AppCompatActivity {
         password = findViewById(R.id.editSenha);
         confirmPassword = findViewById(R.id.editConfirmarSenha);
         typeUser = findViewById(R.id.radioTypeUser);
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBarLogin);
         btnCreate = findViewById(R.id.btnCreate);
         this.activity = this;
 
