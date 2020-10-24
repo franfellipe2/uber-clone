@@ -37,7 +37,7 @@
             android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="Digite sua senha..."
-            android:inputType="textPersonName" />
+            android:inputType="numberPassword" />
 
         <LinearLayout
             android:layout_width="match_parent"

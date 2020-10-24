@@ -16,6 +16,7 @@ import com.franciscociecursoandroid.uberclone.model.User;
 import com.franciscociecursoandroid.uberclone.model.UserType;
 import com.franciscociecursoandroid.uberclone.model.dao.MyFirebase;
 import com.franciscociecursoandroid.uberclone.model.dao.UserDao;
+import com.franciscociecursoandroid.uberclone.model.services.Login;
 import com.franciscociecursoandroid.uberclone.utils.Check;
 import com.franciscociecursoandroid.uberclone.widgets.Alerts;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     Activity activity;
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,65 +40,50 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    public void signIn(View view) {
-        progressBar.setVisibility(View.VISIBLE);
-        if (!formValidate()) return;
-        execSign();
-    }
-
-    private void onSignIn(){
-
+    @Override
+    protected void onStart() {
+        super.onStart();
         progressBar.setVisibility(View.INVISIBLE);
-
-        Alerts.dialogSuccess(activity, "\nUsuario logado com sucesso!");
-
-       /* UserDao.findById(MyFirebase.getAuth().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if(user.getType() == UserType.MOTORISTA.toString()){
-
-                }else{
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
     }
 
-    public void execSign() {
+    private void onSignIn() {
+        Login.redirecionarUsuario(this, true);
+    }
+
+    public void signIn(View view) {
+
+        if (!formValidate()) return;
+
+        progressBar.setVisibility(View.VISIBLE);
+
         MyFirebase.getAuth()
                 .signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                 .addOnCompleteListener(task -> {
-                    if(!task.isSuccessful()){
-                        Alerts.dialogError(activity, task.getException().getMessage());
+                    if (!task.isSuccessful()) {
                         progressBar.setVisibility(View.INVISIBLE);
-                    }else{
+                        Alerts.dialogError(activity, task.getException().getMessage());
+                    } else {
                         onSignIn();
                     }
                 });
     }
 
+
     public boolean formValidate() {
         String error = "";
         if (Check.isEmpty(email)) {
-            error += "> Email em branco!\n";
+            error += "\n> Email em branco!\n";
         } else if (!Check.isEmailValid(email.getText().toString())) {
-            error += "> Informe um email válido!\n";
+            error += "\n> Informe um email válido!\n";
         }
         if (Check.isEmpty(password)) {
-            error += "> Senha em branco!\n";
+            error += "\n> Senha em branco!\n";
         }
-        if (error.equals("")) {
+        if (error.equals(""))
             return true;
-        } else {
-            Alerts.dialogError(this, error);
-            return false;
-        }
+        Alerts.dialogError(this, error);
+        return false;
+
 
     }
 }

@@ -4,7 +4,8 @@
 # Autenticação
     + Cadastrar login
     + Logar usuario
-    - Direcionar usuario logado para a tela motorista/passageiro
+    + Direcionar usuario logado para a tela motorista/passageiro
+    - deslogar usario
 # Model
     + Cadastrar Usuario
 # view

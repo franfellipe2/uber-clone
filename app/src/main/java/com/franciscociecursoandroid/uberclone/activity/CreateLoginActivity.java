@@ -18,6 +18,7 @@ import com.franciscociecursoandroid.uberclone.model.User;
 import com.franciscociecursoandroid.uberclone.model.UserType;
 import com.franciscociecursoandroid.uberclone.model.dao.MyFirebase;
 import com.franciscociecursoandroid.uberclone.model.dao.UserDao;
+import com.franciscociecursoandroid.uberclone.model.services.Login;
 import com.franciscociecursoandroid.uberclone.utils.Check;
 import com.franciscociecursoandroid.uberclone.widgets.Alerts;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +47,7 @@ public class CreateLoginActivity extends AppCompatActivity {
         typeUser = findViewById(R.id.radioTypeUser);
         progressBar = findViewById(R.id.progressBarLogin);
         btnCreate = findViewById(R.id.btnCreate);
+
         this.activity = this;
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -59,9 +61,7 @@ public class CreateLoginActivity extends AppCompatActivity {
 
     public void onUserCreated() {
         progressBar.setVisibility(View.INVISIBLE);
-        Intent i = new Intent(this, MapsActivity.class);
-        startActivity(i);
-        finish();
+        Login.redirecionarUsuario(this,true);
     }
 
     public void createLogin(View view) {
@@ -71,16 +71,13 @@ public class CreateLoginActivity extends AppCompatActivity {
 
         MyFirebase.getAuth()
                 .createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            onLoginCreated(task);
-                        } else {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Alerts.dialogError(activity, task.getException().getMessage());
-                            task.getException().printStackTrace();
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        onLoginCreated(task);
+                    } else {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Alerts.dialogError(activity, task.getException().getMessage());
+                        task.getException().printStackTrace();
                     }
                 });
     }
@@ -99,7 +96,7 @@ public class CreateLoginActivity extends AppCompatActivity {
                 break;
         }
         user.setId(task.getResult().getUser().getUid());
-        UserDao.create(user, taskDao -> {
+        UserDao.create(user).addOnCompleteListener(taskDao -> {
             if (!taskDao.isSuccessful()) {
                 Alerts.dialogError(activity, taskDao.getException().getMessage());
                 progressBar.setVisibility(View.INVISIBLE);
@@ -133,12 +130,11 @@ public class CreateLoginActivity extends AppCompatActivity {
             error += "> Tipo de cadastro, não informado(Passageiro/Motorista)!\n";
         }
 
-        if (error.equals("")) {
+        if (error.equals(""))
             return true;
-        } else {
-            Alerts.dialogError(this, error);
-            return false;
-        }
+
+        Alerts.dialogError(this, error);
+        return false;
 
     }
 

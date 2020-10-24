@@ -1,14 +1,14 @@
 package com.franciscociecursoandroid.uberclone.model.dao;
 
 import com.franciscociecursoandroid.uberclone.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 
 public class UserDao {
 
-    public static void create(User user, OnCompleteListener listener) {
+    public static Task<Void> create(User user) {
         DatabaseReference ref = MyFirebase.getReference();
-        ref.child(User.TABLENAME).child(user.getId()).setValue(user).addOnCompleteListener(listener);
+        return ref.child(User.TABLENAME).child(user.getId()).setValue(user);
     }
 
     public static DatabaseReference findById(String uiId){

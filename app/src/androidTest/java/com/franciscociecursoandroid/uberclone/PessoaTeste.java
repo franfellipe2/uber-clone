@@ -14,6 +14,6 @@ public class PessoaTeste extends TestCase {
         } catch (Exception e) {
 
         }
-        assertTrue("Setou tipo usuario", u.getType() == UserType.MOTORISTA.toString());
+        assertEquals(u.getType(), UserType.MOTORISTA.toString());
     }
 }
