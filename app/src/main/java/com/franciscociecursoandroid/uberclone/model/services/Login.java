@@ -51,4 +51,7 @@ public class Login {
         });
     }
 
+    public static void signOut() {
+        MyFirebase.getAuth().signOut();
+    }
 }

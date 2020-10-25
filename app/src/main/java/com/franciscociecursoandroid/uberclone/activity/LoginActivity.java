@@ -32,21 +32,31 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Login.hasLogin()){
+            startActivity(new Intent(this, RedirectLogin.class));
+            finish();
+        }
         setContentView(R.layout.activity_login);
+
         email = findViewById(R.id.editEmail);
         password = findViewById(R.id.editPassword);
         progressBar = findViewById(R.id.progressBarLogin);
         activity = this;
         progressBar.setVisibility(View.INVISIBLE);
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        progressBar.setVisibility(View.INVISIBLE);
+        if(!Login.hasLogin()){
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void onSignIn() {
+
         Login.redirecionarUsuario(this, true);
     }
 
@@ -83,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         Alerts.dialogError(this, error);
         return false;
-
-
     }
+
+
 }
