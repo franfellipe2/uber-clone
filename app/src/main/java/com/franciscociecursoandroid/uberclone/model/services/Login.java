@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
-import com.franciscociecursoandroid.uberclone.activity.MapsActivity;
 import com.franciscociecursoandroid.uberclone.activity.MotoqueiroRequisicoesActivity;
+import com.franciscociecursoandroid.uberclone.activity.PassageiroActivity;
 import com.franciscociecursoandroid.uberclone.model.User;
 import com.franciscociecursoandroid.uberclone.model.UserType;
 import com.franciscociecursoandroid.uberclone.model.dao.MyFirebase;
@@ -37,7 +37,7 @@ public class Login {
                 if(u.getType() == UserType.MOTORISTA.toString()){
                     i = new Intent(activity, MotoqueiroRequisicoesActivity.class);
                 }else{
-                    i = new Intent(activity, MapsActivity.class);
+                    i = new Intent(activity, PassageiroActivity.class);
                 }
                 activity.startActivity(i);
                 if(finishAtivity)

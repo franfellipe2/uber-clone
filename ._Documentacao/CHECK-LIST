@@ -1,6 +1,8 @@
 # configuraçõe
     + Iniciar Projeto
     + Conectar Ao Firebase
+# APIS
+    + integrar api google mapa
 # Autenticação
     + Cadastrar login
     + Logar usuario
@@ -12,5 +14,6 @@
     + Tela Inicial
     + tela login
     + tela cadastro
-    - tela mapa:
-        + integrar api google mapa
+    +- passageiro:
+       + interface chamar uber
+
