@@ -26,9 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="65dp"
         android:layout_marginRight="10dp"
-        android:background="@android:color/white"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -36,6 +35,7 @@
             android:id="@+id/editMeuLocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:background="@android:color/white"
             android:drawableLeft="@drawable/circulo_verde_10dp"
             android:drawablePadding="8dp"
@@ -43,9 +43,8 @@
             android:enabled="false"
             android:hint="Meu Local"
             android:inputType="textPersonName"
-            android:paddingLeft="16dp"
+            android:padding="16dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
             android:paddingBottom="8dp" />
 
         <EditText
@@ -59,10 +58,60 @@
             android:ems="10"
             android:hint="Digite seu destino..."
             android:inputType="textPersonName"
-            android:paddingLeft="16dp"
+            android:padding="16dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
             android:paddingBottom="8dp" />
+
+        <LinearLayout
+            android:id="@+id/viewConfirmarDestino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Confirmar Destino"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textDestino"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Endereco destino"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnConfirmarDestino"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:text="Confirmar"
+                    android:theme="@style/BotaoConfirmar" />
+
+                <Button
+                    android:id="@+id/btnCancelarDestino"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="Cancelar" />
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

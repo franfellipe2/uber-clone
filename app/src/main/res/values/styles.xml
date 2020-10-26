@@ -14,6 +14,18 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="BotaoConfirmar" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorBotaoConfirmar</item>
+        <item name="colorButtonNormal">@color/colorBotaoConfirmarDark</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="BotaoCancelar" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

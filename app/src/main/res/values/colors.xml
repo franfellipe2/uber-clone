@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#202B31</color>
     <color name="colorAccent">#59C1D9</color>
     <color name="colorSecondary">#D9D9D9</color>
+    <color name="colorBotaoConfirmar">#D4D4D4</color>
+    <color name="colorBotaoConfirmarDark">#038FD1</color>
 </resources>

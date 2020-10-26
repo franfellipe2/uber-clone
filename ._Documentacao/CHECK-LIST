@@ -1,3 +1,21 @@
+
+Aguardando          |         Fazendo          |           testando          |             finzalizado
+========================================================================================================
+                    Recuperar Destino da viagem
+                                                                                           Iniciar Projeto
+                                                                                           Tela Inicial
+                                                                                           tela login
+                                                                                           tela cadastro
+                                                                                           Conectar Ao Firebase
+                                                                                           Cadastrar login
+                                                                                           Cadastrar Usuario
+                                                                                           Direcionar usuario logado para a tela motorista/passageiro
+                                                                                           deslogar usario
+                                                                                           interface chamar uber
+
+
+----------------------------------------------------------------------------------------------------------
+
 # configuraçõe
     + Iniciar Projeto
     + Conectar Ao Firebase
@@ -7,13 +25,17 @@
     + Cadastrar login
     + Logar usuario
     + Direcionar usuario logado para a tela motorista/passageiro
-    - deslogar usario
+    + deslogar usario
 # Model
     + Cadastrar Usuario
+
+# Funções
+    + Marcar local do usuario no mapa
+    >>>> Recuperar Destino da viagem
+
 # view
     + Tela Inicial
     + tela login
     + tela cadastro
     +- passageiro:
        + interface chamar uber
-
