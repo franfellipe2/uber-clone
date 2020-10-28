@@ -63,55 +63,25 @@
             android:paddingBottom="8dp" />
 
         <LinearLayout
-            android:id="@+id/viewConfirmarDestino"
+            android:id="@+id/layoutCheckDestino"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
             android:background="@android:color/white"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/textView2"
+            <CheckedTextView
+                android:id="@+id/checkedTextDestino"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Confirmar Destino"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:background="@android:color/white"
+                android:checkMark="@drawable/ic_check_24dp"
 
-            <TextView
-                android:id="@+id/textDestino"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Endereco destino"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnConfirmarDestino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:text="Confirmar"
-                    android:theme="@style/BotaoConfirmar" />
-
-                <Button
-                    android:id="@+id/btnCancelarDestino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:text="Cancelar" />
-            </LinearLayout>
+                android:text="Endereço de destino..."
+                android:textSize="18dp" />
         </LinearLayout>
+
 
     </LinearLayout>
 

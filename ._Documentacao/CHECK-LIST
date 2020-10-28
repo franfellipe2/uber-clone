@@ -1,7 +1,7 @@
 
 Aguardando          |         Fazendo          |           testando          |             finzalizado
 ========================================================================================================
-                    Recuperar Destino da viagem
+Chamar Uber
                                                                                            Iniciar Projeto
                                                                                            Tela Inicial
                                                                                            tela login
@@ -12,7 +12,7 @@ Aguardando          |         Fazendo          |           testando          |  
                                                                                            Direcionar usuario logado para a tela motorista/passageiro
                                                                                            deslogar usario
                                                                                            interface chamar uber
-
+                                                                                           Recuperar Destino da viagem
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,8 @@ Aguardando          |         Fazendo          |           testando          |  
 
 # Funções
     + Marcar local do usuario no mapa
-    >>>> Recuperar Destino da viagem
+    + Recuperar Destino da viagem
+    - Chamar Uber
 
 # view
     + Tela Inicial
