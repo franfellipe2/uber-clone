@@ -10,6 +10,7 @@ public class Endereco {
     private String bairro;
     private String cep;
     private String uf;
+    private String estado;
 
     private String latitude;
     private String longitude;
@@ -17,6 +18,14 @@ public class Endereco {
 
 
     public Endereco() {
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getLogradouro() {
@@ -88,12 +97,12 @@ public class Endereco {
     public String toString() {
         // "Av. Juscelino Kubitschek, 1860 - IPÊ AMARELO, \n Frutal - MG, 38200-000";
         return String.format(
-                "%s, %s - %s,\n %s -  %s, %s",
+                "%s, %s - %s,\n %s -  %s, CEP: %s",
                 logradouro,
-                "",
-                bairro,
+                numero,
+                bairro != null ? bairro : "",
                 cidade,
-                uf,
+                uf == null ? estado : uf,
                 cep
         );
     }

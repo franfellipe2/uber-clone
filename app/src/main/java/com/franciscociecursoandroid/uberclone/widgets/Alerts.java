@@ -2,12 +2,7 @@ package com.franciscociecursoandroid.uberclone.widgets;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
-
-import androidx.annotation.AttrRes;
 
 import com.franciscociecursoandroid.uberclone.R;
 
@@ -33,7 +28,7 @@ public class Alerts {
 
     public static void dialogAlert(Activity activity, String s) {
         AlertDialog.Builder al = new AlertDialog.Builder(activity);
-        al.setTitle("Sucesso!")
+        al.setTitle("Atenção!")
                 .setMessage(s)
                 .setIcon(R.drawable.ic_alert_24dp)
                 .setPositiveButton("OK", null)
@@ -54,6 +49,32 @@ public class Alerts {
         al.setTitle("Alerta!")
                 .setMessage(s)
                 .setIcon(R.drawable.ic_alert_24dp)
+                .setPositiveButton("CONFIRMAR", (DialogInterface dialog, int which) -> {
+                    listener.onConfirme();
+                })
+                .setNegativeButton("CANCELAR", (DialogInterface dialog, int which) -> {
+                    listener.onCancel();
+                }).show();
+    }
+
+    public static void dialogConfirmWarning(Activity activity, String title, String message, OnConfirmeListener listener) {
+        AlertDialog.Builder al = new AlertDialog.Builder(activity);
+        al.setTitle(title != null ? title: "Confirmar!")
+                .setMessage(message)
+                .setIcon(R.drawable.ic_alert_24dp)
+                .setPositiveButton("CONFIRMAR", (DialogInterface dialog, int which) -> {
+                    listener.onConfirme();
+                })
+                .setNegativeButton("CANCELAR", (DialogInterface dialog, int which) -> {
+                    listener.onCancel();
+                }).show();
+    }
+
+    public static void dialogConfirmSuccess(Activity activity, String title, String message, OnConfirmeListener listener) {
+        AlertDialog.Builder al = new AlertDialog.Builder(activity);
+        al.setTitle(title != null ? title: "Confirmar!")
+                .setMessage(message)
+                .setIcon(R.drawable.ic_success_24dp)
                 .setPositiveButton("CONFIRMAR", (DialogInterface dialog, int which) -> {
                     listener.onConfirme();
                 })

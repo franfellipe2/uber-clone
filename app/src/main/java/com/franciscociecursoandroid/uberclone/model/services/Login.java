@@ -22,6 +22,15 @@ public class Login {
         return MyFirebase.getAuth().getCurrentUser();
     }
 
+    public static User getUserData() {
+        FirebaseUser login = Login.getLogin();
+        User u = new User();
+        u.setId(login.getUid());
+        u.setName(login.getDisplayName());
+        u.setEmail(login.getEmail());
+        return u;
+    }
+
     public static boolean hasLogin() {
         return getLogin() != null;
     }
@@ -34,13 +43,13 @@ public class Login {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User u = snapshot.getValue(User.class);
                 Intent i = null;
-                if(u.getType() == UserType.MOTORISTA.toString()){
+                if (u.getType() == UserType.MOTORISTA.toString()) {
                     i = new Intent(activity, MotoqueiroRequisicoesActivity.class);
-                }else{
+                } else {
                     i = new Intent(activity, PassageiroActivity.class);
                 }
                 activity.startActivity(i);
-                if(finishAtivity)
+                if (finishAtivity)
                     activity.finish();
             }
 

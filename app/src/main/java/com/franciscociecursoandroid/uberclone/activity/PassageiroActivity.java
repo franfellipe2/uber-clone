@@ -13,13 +13,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -29,8 +30,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.franciscociecursoandroid.uberclone.R;
 import com.franciscociecursoandroid.uberclone.model.Endereco;
 import com.franciscociecursoandroid.uberclone.model.EnderecoFactory;
+import com.franciscociecursoandroid.uberclone.model.Requisicao;
+import com.franciscociecursoandroid.uberclone.model.RequisicaoStatus;
+import com.franciscociecursoandroid.uberclone.model.dao.RequisicaoDao;
 import com.franciscociecursoandroid.uberclone.model.services.Login;
-import com.franciscociecursoandroid.uberclone.utils.Check;
 import com.franciscociecursoandroid.uberclone.widgets.Alerts;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,13 +53,17 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
     LocationManager locationManager;
     LocationListener locationListener;
 
-    Endereco destino;
-    Boolean procurandoDestino = false;
-
     // Componentes
     CheckedTextView checkedTextDestino;
     LinearLayout checkDestino;
     EditText editDestino;
+    Button btnChamarUber;
+
+    // geral
+    Address addressEncontrado;
+    Endereco destino;
+    Boolean procurandoDestino = false;
+    private LatLng locaPassageiro;
 
 
     @Override
@@ -100,6 +107,28 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
 
             }
         });
+        // Chamar Uber
+        btnChamarUber.setOnClickListener(v -> chamarUber());
+    }
+
+    private void chamarUber() {
+        if (destino == null || !checkedTextDestino.isChecked()) {
+            Alerts.dialogAlert(this, "Você não escolheu um destino!");
+        } else {
+            Alerts.dialogConfirmSuccess(this, "Confirma o endereço de destino?", destino.toString(), new Alerts.OnConfirmeListener() {
+                @Override
+                public void onConfirme() {
+                    salvarRequisicao(destino);
+                    desSelecionarDestino(true);
+                }
+
+                @Override
+                public void onCancel() {
+                    desSelecionarDestino(true);
+                }
+            });
+
+        }
     }
 
     private Address recuperarDestino(String s) throws IOException {
@@ -115,10 +144,13 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
         String error;
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+            destino = null;
+        }
 
         @Override
         protected Address doInBackground(String... strings) {
+            procurandoDestino = true;
             try {
                 return recuperarDestino(strings[0]);
             } catch (IOException e) {
@@ -138,7 +170,9 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
             procurandoDestino = false;
             if (address != null) {
                 checkedTextDestino.setText(address.getAddressLine(0));
-            }else{
+                addressEncontrado = address;
+                destino = EnderecoFactory.createFromAddress(address);
+            } else {
                 checkedTextDestino.setText("Procurando...");
             }
         }
@@ -153,11 +187,13 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void selecionarDestino() {
+        debugAddress(addressEncontrado);
         checkedTextDestino.setChecked(true);
         checkedTextDestino.setCheckMarkDrawable(R.drawable.ic_checked_24dp);
     }
 
     private void desSelecionarDestino(Boolean ocultarView) {
+        destino = null;
         checkedTextDestino.setChecked(false);
         checkedTextDestino.setCheckMarkDrawable(R.drawable.ic_check_24dp);
         if (ocultarView)
@@ -168,6 +204,28 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
         editDestino = findViewById(R.id.editDestino);
         checkDestino = findViewById(R.id.layoutCheckDestino);
         checkedTextDestino = findViewById(R.id.checkedTextDestino);
+        btnChamarUber = findViewById(R.id.btnChamarUber);
+    }
+
+    public void salvarRequisicao(Endereco destino) {
+
+        Requisicao requisicao = new Requisicao();
+        requisicao.setStatus(RequisicaoStatus.AGUARDADNDO.toString());
+        requisicao.setDestino(destino);
+        requisicao.setPassageiro(Login.getUserData());
+
+        Endereco origem = new Endereco();
+        origem.setLatitude(String.valueOf(locaPassageiro.latitude));
+        origem.setLongitude(String.valueOf(locaPassageiro.longitude));
+        requisicao.setOrigem(origem);
+
+        RequisicaoDao.create(requisicao).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Alerts.dialogSuccess(this, "Requisição Criada com sucesso!");
+            } else {
+                Alerts.dialogError(this, task.getException().getMessage() + "\n\n" + task.getException().getStackTrace().toString());
+            }
+        });
     }
 
     /**
@@ -195,14 +253,14 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
 
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
-                LatLng myPosition = new LatLng(latitude, longitude);
+                locaPassageiro = new LatLng(latitude, longitude);
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions()
-                        .position(myPosition)
+                        .position(locaPassageiro)
                         .title("Meu local")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.usuario)));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, 15));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locaPassageiro, 15));
             }
 
             @Override
@@ -247,4 +305,23 @@ public class PassageiroActivity extends AppCompatActivity implements OnMapReadyC
         }
         return true;
     }
+
+
+    public void debugAddress(Address address) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\ngetLocality: " + address.getLocality());
+        builder.append("\ngetSubLocality: " + address.getSubLocality());
+        builder.append("\ngetAdminArea: " + address.getAdminArea());
+        builder.append("\ngetSubAdminArea: " + address.getSubAdminArea());
+        builder.append("\ngetCountryCode: " + address.getCountryCode());
+        builder.append("\ngetCountryName: " + address.getCountryName());
+        builder.append("\ngetFeatureName: " + address.getFeatureName());
+        builder.append("\ngetLocale: " + address.getLocale());
+        builder.append("\ngetPostalCode: " + address.getPostalCode());
+        builder.append("\ngetSubThoroughfare: " + address.getSubThoroughfare());
+        builder.append("\ngetThoroughfare: " + address.getThoroughfare());
+        builder.append("\ngetPremises: " + address.getPremises());
+        Log.d("ADDRESS", builder.toString());
+    }
+
 }

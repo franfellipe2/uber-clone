@@ -13,6 +13,7 @@ Chamar Uber
                                                                                            deslogar usario
                                                                                            interface chamar uber
                                                                                            Recuperar Destino da viagem
+                                                                                           Salvar requisicao de viagem
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ Chamar Uber
 # Funções
     + Marcar local do usuario no mapa
     + Recuperar Destino da viagem
+    - Salvar requisicao de viagem
     - Chamar Uber
 
 # view
